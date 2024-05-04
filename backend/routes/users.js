@@ -1,12 +1,12 @@
-// const express = require("express");
-// const userRouter = express.Router();
-// const { register,login} = require("../controllers/users");
-// // Import users controllers
+const express = require("express");
+const userRouter = express.Router();
+const { register,login} = require("../controllers/users");
+// Import users controllers
 
-// userRouter.post("/register", register);
-// userRouter.post("/login", login);
+userRouter.post("/register", register);
+userRouter.post("/login", login);
 
-// module.exports = userRouter;
+module.exports = userRouter;
 
 /*
  * Testing Object:

@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const { pool } = require("../models/db.js");
 const jwt = require("jsonwebtoken");
 exports.registerDoctor = async (req, res) => {
@@ -11,7 +11,7 @@ exports.registerDoctor = async (req, res) => {
         "All fields (full_name, phone_number, password, email, gender) are required",
     });
   }
-  const encryptedPassword = await bcrypt.hash(password, 9);
+  const encryptedPassword = await bcryptjs.hash(password, 9);
   const query = `INSERT INTO doctor (full_name, phone_number, password, email, gender ,role_id) VALUES ($1,$2,$3,$4,$5,$6)`;
   const data = [
     full_name,
@@ -53,7 +53,7 @@ exports.loginDoctor = (req, res) => {
     .query(query, data)
     .then((result) => {
       if (result.rows.length) {
-        bcrypt.compare(password, result.rows[0].password, (err, response) => {
+        bcryptjs.compare(password, result.rows[0].password, (err, response) => {
           if (err) res.json(err);
           if (response) {
             const payload = {
