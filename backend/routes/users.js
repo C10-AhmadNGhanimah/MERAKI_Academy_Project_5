@@ -1,6 +1,6 @@
 const express = require("express");
 const userRouter = express.Router();
-const { register, login } = require("../controllers/users.js");
+const { register,login} = require("../controllers/users");
 // Import users controllers
 
 userRouter.post("/register", register);

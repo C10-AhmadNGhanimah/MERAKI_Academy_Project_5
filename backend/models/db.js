@@ -1,13 +1,15 @@
 const { Pool } = require("pg");
-
 const connectionString = process.env.CONNECTION_STRING;
-
 const pool = new Pool({
-  // the line below is equivalent to connectionString: connectionString,
   connectionString,
 });
+pool
+  .connect()
+  .then((res) => {
+    console.log(`DB connected to ${res.database}`);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-// export the pool to be able to use it to run Queries
-module.exports = {
-  pool,
-};
+module.exports = pool;
