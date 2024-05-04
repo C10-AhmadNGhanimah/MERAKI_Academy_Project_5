@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const { Pool }=require('pg')
 const connectionString=process.env.CONNECTION_STRING
 console.log(connectionString)
@@ -15,3 +16,20 @@ pool.connect((err,pool)=>{
 module.exports={
     pool,
 }
+=======
+const { Pool } = require("pg");
+const connectionString = process.env.CONNECTION_STRING;
+const pool = new Pool({
+  connectionString,
+});
+pool
+  .connect()
+  .then((res) => {
+    console.log(`DB connected to ${res.database}`);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+module.exports = pool;
+>>>>>>> 81ecaca2689e9e47a56b06d9d7e9cb208d36a3f2

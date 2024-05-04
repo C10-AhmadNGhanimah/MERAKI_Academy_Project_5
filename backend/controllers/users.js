@@ -1,11 +1,98 @@
+const  pool  = require("../models/db");
+const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 // This function creates (new user)
-const register = (req, res) => {};
+const register = async (req, res) => {
+  const { full_name, age, phone_number, email, password, gender, role_id } =
+    req.body;
+
+  const hash_password = await bcryptjs.hash(password, 10);
+
+  const value = [
+    full_name,
+    age,
+    phone_number,
+    email,
+    hash_password,
+    gender,
+    role_id,
+  ];
+  pool
+    .query(
+      `INSERT INTO users (full_name, age, phone_number, email, password, gender, role_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
+      value
+    )
+    .then((result) => {
+      console.log(result.rows);
+      res.status(201).json({
+        success: true,
+        massage: "Account created successfully",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(409).json({
+        success: false,
+        message: "The email already exists",
+      });
+    });
+};
 
 const login = (req, res) => {
   //TODO: write your code here
+  const { email, password } = req.body;
+  const value = [email];
+  pool
+    .query(
+      `SELECT *
+      FROM users
+      WHERE email = $1;`,
+      value
+    )
+    .then(async (result) => {
+      console.log(result.rows);
+      if (!result.rows.length)
+        res.status(403).json({
+          success: false,
+          massage:
+            "The email doesn’t exist or the password you’ve entered is incorrect",
+        });
+      else {
+        const isValid = await bcryptjs.compare(password, result.rows[0].password);
+        console.log(isValid);
+        if (!isValid) {
+          res.status(403).json({
+            success: false,
+            massage:
+              "The email doesn’t exist or the password you’ve entered is incorrect",
+          });
+        } else {
+          const payload = {
+            userId: result.id,
+            phone_number: result.phone_number,
+            role: result.role,
+          };
+          const options = {
+            expiresIn: "6h",
+          };
+          const userToken = jwt.sign(payload, process.env.SECRET, options);
+          res.status(200).json({
+            success: true,
+            massage: "Valid login credentials",
+            token: userToken,
+            userId: result.rows[0].id,
+          });
+        }
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 };
 
 module.exports = {
   register,
-  login,
+  login
 };
