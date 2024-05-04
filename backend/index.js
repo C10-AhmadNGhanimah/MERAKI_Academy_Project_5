@@ -7,14 +7,16 @@ const PORT = 5000;
 
 // Import Routers
 const userRouter = require("./routes/users");
-const clinkRouter=require("./routes/clinic")
+const clinkRouter = require("./routes/clinic");
+const doctorRouter = require("./routes/doctor.js");
 
 app.use(cors());
 app.use(express.json());
 
 // Routes Middleware
-app.use("/users",userRouter)
-app.use("/clinic",clinkRouter)
+app.use("/users", userRouter);
+app.use("/clinic", clinkRouter);
+app.use("/doctor", doctorRouter);
 
 // Handles any other endpoints [unassigned - endpoints]
 app.use("*", (req, res) => res.status(404).json("NO content at this path"));
