@@ -1,19 +1,31 @@
-const  pool  = require("../models/db");
+const {pool} = require("../models/db");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // This function creates (new user)
 const register = async (req, res) => {
-  const { full_name, age, phone_number, email, password, gender, role_id } =
-    req.body;
-
+  const { full_name, age, phone_number, email, password, gender } = req.body;
+  const role_id = 1;
+  if (
+    !full_name ||
+    !phone_number ||
+    !password ||
+    !email ||
+    !gender 
+  ) {
+    return res.status(400).json({
+      success: false,
+      message:
+        "All fields (full_name, phone_number, password, email, gender ) are required",
+    });
+  }
   const hash_password = await bcryptjs.hash(password, 10);
 
   const value = [
     full_name,
     age,
     phone_number,
-    email,
+    email.toLowerCase(),
     hash_password,
     gender,
     role_id,
@@ -59,7 +71,10 @@ const login = (req, res) => {
             "The email doesn’t exist or the password you’ve entered is incorrect",
         });
       else {
-        const isValid = await bcryptjs.compare(password, result.rows[0].password);
+        const isValid = await bcryptjs.compare(
+          password,
+          result.rows[0].password
+        );
         console.log(isValid);
         if (!isValid) {
           res.status(403).json({
@@ -94,5 +109,5 @@ const login = (req, res) => {
 
 module.exports = {
   register,
-  login
+  login,
 };
