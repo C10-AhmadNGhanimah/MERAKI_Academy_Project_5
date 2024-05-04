@@ -5,12 +5,12 @@ const createClinic=(req,res)=>{
     const {name,specialization,location, doctor_id}=req.body
     const query=`INSERT INTO clinic (name, specialization, location, doctor_id) VALUES ($1,$2,$3,$4) RETURNING *`
     const values=[name, specialization, location, doctor_id]
-    pool.query(query.values)
+    pool.query(query,values)
     .then((result)=>{
-        res.status(201).json(result.rows[0])
+        res.status(201).json({message : "created clinic"})
     })
     .catch((err)=>{
-        res.status(500).send("'An error occurred while adding the clinic");
+        res.status(500).send("an error occurred while adding the clinic");
 
     })
 }
@@ -41,11 +41,25 @@ const getClinicById = (req, res) => {
         });
 };
 
-
+const getDoctorsBySpecialization = (req, res) => {
+    const specialization = req.params.specialization;
+    pool.query('SELECT * FROM clinic WHERE specialization = $1', [specialization])
+        .then(result => {
+            if (result.rows.length === 0) {
+                res.status(404).send('No doctors found for this specialization');
+            } else {
+                res.status(200).json(result.rows);
+            }
+        })
+        .catch(error => {
+            res.status(500).send('An error occurred while fetching doctors data');
+        });
+};
 
 module.exports={
 createClinic,
 getAllClinic,
-getClinicById
+getClinicById,
+getDoctorsBySpecialization
 
 }
