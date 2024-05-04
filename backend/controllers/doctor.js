@@ -2,17 +2,33 @@ const bcryptjs = require("bcryptjs");
 const { pool } = require("../models/db.js");
 const jwt = require("jsonwebtoken");
 exports.registerDoctor = async (req, res) => {
-  const { full_name, phone_number, password, email, gender } = req.body;
+  const {
+    full_name,
+    phone_number,
+    password,
+    email,
+    gender,
+    image_doctor,
+    specialization_doctor,
+  } = req.body;
   const role_id = 2;
-  if (!full_name || !phone_number || !password || !email || !gender) {
+  if (
+    !full_name ||
+    !phone_number ||
+    !password ||
+    !email ||
+    !gender ||
+    !image_doctor ||
+    !specialization_doctor
+  ) {
     return res.status(400).json({
       success: false,
       message:
-        "All fields (full_name, phone_number, password, email, gender) are required",
+        "All fields (full_name, phone_number, password, email, gender ,image_doctor , specialization_doctor ) are required",
     });
   }
   const encryptedPassword = await bcryptjs.hash(password, 9);
-  const query = `INSERT INTO doctor (full_name, phone_number, password, email, gender ,role_id) VALUES ($1,$2,$3,$4,$5,$6)`;
+  const query = `INSERT INTO doctors (full_name, phone_number, password, email, gender ,role_id , image_doctor ,specialization_doctor) VALUES ($1,$2,$3,$4,$5,$6 ,$7,$8)`;
   const data = [
     full_name,
     phone_number,
@@ -20,11 +36,13 @@ exports.registerDoctor = async (req, res) => {
     email.toLowerCase(),
     gender,
     role_id,
+    image_doctor,
+    specialization_doctor,
   ];
   if (phone_number.length < 9) {
     return res.status(400).json({
       success: false,
-      message: "Phone number must be at least 9 Number",
+      message: "Phone number must be between 9",
     });
   }
   pool
@@ -47,7 +65,7 @@ exports.registerDoctor = async (req, res) => {
 exports.loginDoctor = (req, res) => {
   const password = req.body.password;
   const email = req.body.email;
-  const query = `SELECT * FROM doctor WHERE email = $1`;
+  const query = `SELECT * FROM doctors WHERE email = $1`;
   const data = [email.toLowerCase()];
   pool
     .query(query, data)

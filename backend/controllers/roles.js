@@ -1,4 +1,4 @@
-const pool  = require("../models/db");
+const { pool } = require("../models/db");
 
 // This function creates new role
 const createNewRole = (req, res) => {
@@ -25,5 +25,5 @@ const createNewRole = (req, res) => {
 };
 
 module.exports = {
-    createNewRole,
-  }
+  createNewRole,
+};
