@@ -67,9 +67,6 @@ CREATE TABLE diagnostics (
     FOREIGN KEY (doctor_id) REFERENCES doctors(id)
 );
  
-
-
-
 CREATE TABLE ratings (
     id SERIAL PRIMARY KEY,
     rating SMALLINT,
