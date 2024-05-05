@@ -6,6 +6,7 @@ const createClinic = (req, res) => {
     req.body;
   const query = `INSERT INTO clinics (name, location, image_clinic, description , specialization) VALUES ($1,$2,$3,$4 ,$5) RETURNING *`;
   const values = [name, location, image_clinic, description, specialization];
+
   pool
     .query(query, values)
     .then((result) => {
@@ -57,6 +58,7 @@ const getDoctorsBySpecialization = (req, res) => {
     `,
       [specializationId]
     )
+
     .then((result) => {
       if (result.rows.length === 0) {
         res.status(404).send("No clinics found for this specialization");
