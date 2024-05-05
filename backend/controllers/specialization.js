@@ -48,6 +48,5 @@ exports.getAllSpecialization = (req, res) => {
 
 exports.getAllClinicSpecializationByID = (req, res) => {
   const { id } = req.params;
-  pool.query(`SELECT * FROM clinics WHERE id =`)
-  
+  pool.query(`SELECT * FROM clinics WHERE id = $1`);
 };
