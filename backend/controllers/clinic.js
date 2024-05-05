@@ -2,16 +2,11 @@ const modalClinic = require("../routes/clinic");
 const { pool } = require("../models/db");
 
 const createClinic = (req, res) => {
-<<<<<<< HEAD
-  const { name, specialization, location, doctor_id } = req.body;
-  const query = `INSERT INTO clinics (name, specialization, location, doctor_id) VALUES ($1,$2,$3,$4) RETURNING *`;
-  const values = [name, specialization, location, doctor_id];
-=======
   const { name, location, image_clinic, description, specialization } =
     req.body;
   const query = `INSERT INTO clinics (name, location, image_clinic, description , specialization) VALUES ($1,$2,$3,$4 ,$5) RETURNING *`;
   const values = [name, location, image_clinic, description, specialization];
->>>>>>> 1b9698b05ac9d4a80dc4adbda39968d695b5322e
+
   pool
     .query(query, values)
     .then((result) => {
@@ -54,9 +49,6 @@ const getDoctorsBySpecialization = (req, res) => {
   console.log(specializationId);
 
   pool
-<<<<<<< HEAD
-    .query("SELECT * FROM clinics WHERE specialization = $1", [specialization])
-=======
     .query(
       `
       SELECT c.*, s.name_specialization 
@@ -66,7 +58,7 @@ const getDoctorsBySpecialization = (req, res) => {
     `,
       [specializationId]
     )
->>>>>>> 1b9698b05ac9d4a80dc4adbda39968d695b5322e
+
     .then((result) => {
       if (result.rows.length === 0) {
         res.status(404).send("No clinics found for this specialization");
