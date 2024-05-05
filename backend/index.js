@@ -13,6 +13,7 @@ const userRouter = require("./routes/users");
 const clinkRouter = require("./routes/clinic");
 const doctorRouter = require("./routes/doctor.js");
 const specializationRouter = require("./routes/specialization");
+const rateRouter = require("./routes/ratings.js");
 
 app.use(express.json());
 app.use(cors());
@@ -25,6 +26,7 @@ app.use("/users", userRouter);
 app.use("/clinic", clinkRouter);
 app.use("/doctor", doctorRouter);
 app.use("/specialization", specializationRouter);
+app.use("/ratings",rateRouter);
 
 // Handles any other endpoints [unassigned - endpoints]
 app.use("*", (req, res) => res.status(404).json("NO content at this path"));
