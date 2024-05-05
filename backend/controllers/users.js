@@ -54,7 +54,7 @@ const register = async (req, res) => {
 const login = (req, res) => {
   //TODO: write your code here
   const { email, password } = req.body;
-  const value = [email];
+  const value = [email.toLowerCase()];
   pool
     .query(
       `SELECT *
@@ -102,8 +102,12 @@ const login = (req, res) => {
       }
     })
     .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
+      res.status(500).json({
+        success: false,
+        message:
+          "Server Error",
+        error : err,
+      });
     });
 };
 

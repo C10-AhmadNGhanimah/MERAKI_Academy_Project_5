@@ -28,7 +28,7 @@ exports.registerDoctor = async (req, res) => {
     });
   }
   const encryptedPassword = await bcryptjs.hash(password, 9);
-  const query = `INSERT INTO doctors (full_name, phone_number, password, email, gender ,role_id , image_doctor ,specialization_doctor) VALUES ($1,$2,$3,$4,$5,$6 ,$7,$8)`;
+  const query = `INSERT INTO doctors (full_name, phone_number, password, email, gender ,role_id , image_doctor ,specialization_doctor) VALUES ($1,$2,$3,$4,$5,$6 ,$7,$8) RETURNING *`;
   const data = [
     full_name,
     phone_number,
@@ -51,6 +51,7 @@ exports.registerDoctor = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "Account created successfully",
+        result: result.rows,
       });
     })
     .catch((err) => {
