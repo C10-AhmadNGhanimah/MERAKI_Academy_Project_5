@@ -3,7 +3,7 @@ const { pool } = require("../models/db");
 
 const createClinic = (req, res) => {
   const { name, specialization, location, doctor_id } = req.body;
-  const query = `INSERT INTO clinic (name, specialization, location, doctor_id) VALUES ($1,$2,$3,$4) RETURNING *`;
+  const query = `INSERT INTO clinics (name, specialization, location, doctor_id) VALUES ($1,$2,$3,$4) RETURNING *`;
   const values = [name, specialization, location, doctor_id];
   pool
     .query(query, values)
@@ -17,7 +17,7 @@ const createClinic = (req, res) => {
 
 const getAllClinic = (req, res) => {
   pool
-    .query(`SELECT * FROM clinic `)
+    .query(`SELECT * FROM clinics `)
     .then((result) => {
       res.status(201).json(result.rows);
     })
@@ -29,7 +29,7 @@ const getAllClinic = (req, res) => {
 const getClinicById = (req, res) => {
   const clinicId = req.params.id;
   pool
-    .query("SELECT * FROM clinic WHERE id = $1", [clinicId])
+    .query("SELECT * FROM clinics WHERE id = $1", [clinicId])
     .then((result) => {
       if (result.rows.length === 0) {
         res.status(404).send("The clinic does not exist");
@@ -45,7 +45,7 @@ const getClinicById = (req, res) => {
 const getDoctorsBySpecialization = (req, res) => {
   const specialization = req.params.specialization;
   pool
-    .query("SELECT * FROM clinic WHERE specialization = $1", [specialization])
+    .query("SELECT * FROM clinics WHERE specialization = $1", [specialization])
     .then((result) => {
       if (result.rows.length === 0) {
         res.status(404).send("No doctors found for this specialization");
