@@ -18,13 +18,14 @@ pool.query(query,values)
 
 }
 const getAllDiagnosticsWithDoctorNames = (req, res) => {
-    const userId=req.user.id
-    const query = `
-    SELECT diagnostics.*, doctors.full_name AS doctor_name
-FROM diagnostics
-JOIN doctors ON diagnostics.doctor_id = doctors.id;
-   `;
-    pool.query(query,[userId])
+    const userId = req.token.userId;
+    console.log(req.token)   
+     const query = `
+        SELECT diagnostics.*, doctors.full_name AS doctor_name
+        FROM diagnostics
+        JOIN doctors ON diagnostics.doctor_id = doctors.id
+        WHERE diagnostics.user_id = $1;`;
+    pool.query(query, [userId])
         .then((result) => {
             res.status(200).json(result.rows);
         })
@@ -33,7 +34,6 @@ JOIN doctors ON diagnostics.doctor_id = doctors.id;
             res.status(500).send("An error occurred while retrieving diagnostics");
         });
 };
-
 
 module.exports={
     createDiginstoics,

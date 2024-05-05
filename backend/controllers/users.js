@@ -84,9 +84,9 @@ const login = (req, res) => {
           });
         } else {
           const payload = {
-            userId: result.id,
-            phone_number: result.phone_number,
-            role: result.role,
+            userId: result.rows[0].id,
+            phone_number: result.rows[0].phone_number,
+            role: result.rows[0].role,
           };
           const options = {
             expiresIn: "6h",
