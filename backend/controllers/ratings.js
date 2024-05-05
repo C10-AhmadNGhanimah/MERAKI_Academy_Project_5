@@ -1,4 +1,4 @@
-const {pool} = require("../models/db");
+const { pool } = require("../models/db");
 
 // Create New Comment Function 
 const  Create_Comment = async (req, res) => {
@@ -29,3 +29,4 @@ const  Create_Comment = async (req, res) => {
     Create_Comment
   };
   
+

@@ -12,6 +12,7 @@ const rolesRouter = require("./routes/roles");
 const userRouter = require("./routes/users");
 const clinkRouter = require("./routes/clinic");
 const doctorRouter = require("./routes/doctor.js");
+const diginosticRouter=require('./routes/diagnostics.js')
 const specializationRouter = require("./routes/specialization");
 const rateRouter = require("./routes/ratings.js");
 
@@ -25,6 +26,7 @@ app.use("/roles", rolesRouter);
 app.use("/users", userRouter);
 app.use("/clinic", clinkRouter);
 app.use("/doctor", doctorRouter);
+app.use('/diagnostics',diginosticRouter)
 app.use("/specialization", specializationRouter);
 app.use("/ratings",rateRouter);
 
