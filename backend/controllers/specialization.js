@@ -48,5 +48,27 @@ exports.getAllSpecialization = (req, res) => {
 
 exports.getAllClinicSpecializationByID = (req, res) => {
   const { id } = req.params;
-  pool.query(`SELECT * FROM clinics WHERE id = $1`);
+  pool
+    .query("SELECT * FROM clinics WHERE specialization = $1", [id])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No clinics found",
+          result: [],
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        message: "Clinics matched with the specified specialization",
+        result: result.rows,
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to retrieve clinics matched with specialization",
+        error: error.message,
+      });
+    });
 };

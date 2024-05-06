@@ -9,7 +9,7 @@ specializationRouter.post(
 );
 specializationRouter.get("/", specializationController.getAllSpecialization);
 specializationRouter.get(
-  "/:Id",
+  "/:id",
   specializationController.getAllClinicSpecializationByID
 );
 module.exports = specializationRouter;
