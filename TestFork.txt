@@ -1,1 +1,30 @@
-Test Fork 4
+------------------------
+git checkout main
+git pull origin main
+
+------------------
+
+1- 
+git remote add upstream git@github.com:C10-AhmadNGhanimah/MERAKI_Academy_Project_5.git
+------------------------
+Create Fork In GitHub WebSite
+2- 
+Example : ForkName = "MERAKI_Academy_Project_5_TestFork2"
+git remote add upstream ForkName
+
+---------------------
+3-
+git checkout main
+git pull upstream main
+---------------------
+4-Example : Branch_Name = "git checkout -b MERAKI_Academy_Project_5_TestFork2" 
+git checkout -b Branch_Name 
+
+---------------
+5- git status 
+git add .
+git commit -m "Comment For Changes"
+
+--------------
+6- Example : branch_name = git push origin MERAKI_Academy_Project_5_TestFork2
+git push origin branch_name
