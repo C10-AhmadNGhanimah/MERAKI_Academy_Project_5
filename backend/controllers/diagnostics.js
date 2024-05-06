@@ -30,7 +30,7 @@ const getAllDiagnosticsWithDoctorNames = (req, res) => {
             res.status(200).json(result.rows);
         })
         .catch((err) => {
-            console.error('Error retrieving diagnostics:', err);
+           // console.error('Error retrieving diagnostics:', err);
             res.status(500).send("An error occurred while retrieving diagnostics");
         });
 };
