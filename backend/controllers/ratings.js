@@ -1,7 +1,7 @@
 const { pool } = require("../models/db");
 
 // Create New Comment Function
-const Create_Comment =  (req, res) => {
+const createComment =  (req, res) => {
   const doctor_id = req.params.id;
   const user_id = req.token.userId;
   
@@ -29,5 +29,5 @@ const Create_Comment =  (req, res) => {
 };
 
 module.exports = {
-  Create_Comment,
+  createComment,
 };
