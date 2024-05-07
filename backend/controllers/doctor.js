@@ -76,7 +76,7 @@ exports.loginDoctor = (req, res) => {
           if (err) res.json(err);
           if (response) {
             const payload = {
-              userId: result.rows[0].id,
+              doctorId: result.rows[0].id,
               country: result.rows[0].country,
               role: result.rows[0].role_id,
             };
@@ -88,7 +88,7 @@ exports.loginDoctor = (req, res) => {
                 token,
                 success: true,
                 message: `Login Successfully`,
-                userId: result.rows[0].id,
+                doctorId: result.rows[0].id,
               });
             } else {
               throw Error;
