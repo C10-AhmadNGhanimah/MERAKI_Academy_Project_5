@@ -57,15 +57,13 @@ CREATE TABLE clinics (
 
 CREATE TABLE appointment (
     id SERIAL PRIMARY KEY,
-    date_time DATETIME,
+    date_time TIMESTAMP,
     status VARCHAR(255),
     user_id INT, 
     clinic_id INT, 
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (clinic_id) REFERENCES clinics(id)
 );
-
-
 
 CREATE TABLE diagnostics (
     id SERIAL PRIMARY KEY,
