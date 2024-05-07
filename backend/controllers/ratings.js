@@ -57,10 +57,38 @@ const getAllRatingByClinicId = (req, res) => {
     });
 };
 
+const createRatingByUserIdForClinic = (req, res) => {
+  const { clinicId, userId } = req.params;
+  const {rating, comment} = req.body;
 
+  const query = `
+    INSERT INTO ratings (rating, comment, rating_date, user_id)
+    VALUES ($1, $2, CURRENT_TIMESTAMP, $3)
+    RETURNING *;
+  `;
+  const value = [ rating, comment,clinicId]
+
+  pool.query(query,value)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: `Rating created successfully for clinic ${clinicId}`,
+        result: result.rows[0],
+      });
+    })
+    .catch((err) => {
+      console.error("Error creating rating:", err);
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        err: err,
+      });
+    });
+};
 
 
 module.exports = {
   createComment,
   getAllRatingByClinicId,
+  createRatingByUserIdForClinic
 };
