@@ -52,7 +52,6 @@ const register = async (req, res) => {
 };
 
 const login = (req, res) => {
-  //TODO: write your code here
   const { email, password } = req.body;
   const value = [email.toLowerCase()];
   pool
@@ -63,11 +62,10 @@ const login = (req, res) => {
       value
     )
     .then(async (result) => {
-      console.log(result.rows);
       if (!result.rows.length)
         res.status(403).json({
           success: false,
-          massage:
+          message:
             "The email doesn’t exist or the password you’ve entered is incorrect",
         });
       else {
@@ -75,11 +73,10 @@ const login = (req, res) => {
           password,
           result.rows[0].password
         );
-        console.log(isValid);
         if (!isValid) {
           res.status(403).json({
             success: false,
-            massage:
+            message:
               "The email doesn’t exist or the password you’ve entered is incorrect",
           });
         } else {
@@ -94,7 +91,7 @@ const login = (req, res) => {
           const userToken = jwt.sign(payload, process.env.SECRET, options);
           res.status(200).json({
             success: true,
-            massage: "Valid login credentials",
+            message: "Valid login credentials",
             token: userToken,
             userId: result.rows[0].id,
           });
@@ -104,12 +101,11 @@ const login = (req, res) => {
     .catch((err) => {
       res.status(500).json({
         success: false,
-        message:
-          "Server Error",
-        error : err,
+        message: "Server Error",
       });
     });
 };
+
 
 module.exports = {
   register,
